@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Researcher Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#111110;--ink2:#4a4a47;--ink3:#8a8a85;
+  --paper:#f0f4f7;--surface:#ffffff;
+  --border:#d8e4ec;--border2:#a8c4d4;
+  --green:#1a4a32;--green-soft:#e8f0eb;--green-mid:#2d6647;
+  --gold:#7a5a1a;--gold-soft:#faf3e0;--gold-mid:#9a7a2a;
+  --red:#7a2020;--red-soft:#fdf0f0;
+  --teal:#1a3f4a;--teal-soft:#e6f0f3;--teal-mid:#2a6070;
+  --amber:#7a4a10;--amber-soft:#fef5e6;--amber-mid:#9a6a20;
+}
+body{font-family:'Lato',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
+
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+.sidebar{
+  background:var(--surface);border-right:1px solid var(--border);
+  padding:1.5rem 1.25rem;position:sticky;top:0;height:100vh;
+  overflow-y:auto;display:flex;flex-direction:column;gap:1.5rem
+}
+.sidebar-title{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:0.1rem}
+.sidebar-sub{font-size:0.75rem;color:var(--ink3);line-height:1.5}
+
+.nav-list{display:flex;flex-direction:column;gap:2px}
+.nav-item{
+  display:flex;align-items:center;gap:8px;padding:0.55rem 0.75rem;
+  border-radius:6px;font-size:0.85rem;color:var(--ink2);cursor:pointer;
+  transition:all 0.15s;border:none;background:none;
+  font-family:'Lato',sans-serif;text-align:left;width:100%
+}
+.nav-item:hover{background:var(--paper);color:var(--ink)}
+.nav-item.active{background:var(--green-soft);color:var(--green-mid);font-weight:700}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:background 0.15s}
+.nav-item.active .nav-dot{background:var(--green-mid)}
+
+.stat-mini{
+  background:var(--paper);border-radius:7px;padding:0.75rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto
+}
+.stat-mini-item{text-align:center}
+.stat-mini-num{font-size:1.6rem;font-weight:700;color:var(--green);line-height:1}
+.stat-mini-label{font-size:0.67rem;color:var(--ink3);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px}
+
+.main{padding:2rem 2.5rem;max-width:900px}
+.panel{display:none}.panel.active{display:block}
+
+.panel-header{margin-bottom:2rem}
+.panel-header h2{font-size:1.4rem;font-weight:700;margin-bottom:0.35rem}
+.panel-header p{font-size:0.88rem;color:var(--ink2);line-height:1.6;max-width:560px}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem;margin-bottom:1.25rem}
+.card-title{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink3);margin-bottom:1rem}
+
+textarea{
+  width:100%;padding:0.75rem 0.9rem;border:1px solid var(--border2);
+  border-radius:7px;background:var(--surface);
+  font-family:'Courier New',monospace;font-size:0.82rem;color:var(--ink);
+  resize:vertical;min-height:90px;transition:border-color 0.15s
+}
+textarea:focus{outline:none;border-color:var(--green-mid)}
+
+.btn{
+  display:inline-flex;align-items:center;gap:6px;padding:0.6rem 1.2rem;
+  border-radius:6px;font-family:'Lato',sans-serif;font-size:0.85rem;
+  font-weight:700;cursor:pointer;border:1px solid transparent;transition:all 0.15s
+}
+.btn-primary{background:var(--green);color:#fff;border-color:var(--green)}.btn-primary:hover{background:#122e21}
+.btn-secondary{background:var(--surface);color:var(--ink);border-color:var(--border2)}.btn-secondary:hover{background:var(--paper)}
+.btn-gold{background:var(--gold);color:#fff;border-color:var(--gold);padding:0.75rem 1.75rem;font-size:0.9rem}.btn-gold:hover{background:#5c4212}
+.btn-ghost{background:transparent;color:var(--ink3);border-color:var(--border);font-size:0.78rem;padding:0.35rem 0.7rem;font-weight:400}.btn-ghost:hover{color:var(--red);border-color:#e0b0b0}
+
+.resp-table-wrap{overflow-x:auto}
+.respondent-table{width:100%;border-collapse:collapse;table-layout:fixed;min-width:700px}
+.respondent-table th{
+  font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;
+  color:var(--ink3);padding:0.5rem 0.6rem;text-align:left;border-bottom:1px solid var(--border)
+}
+.respondent-table td{
+  padding:0.6rem 0.6rem;font-size:0.82rem;border-bottom:1px solid var(--border);
+  vertical-align:top;overflow:hidden
+}
+.respondent-table tr:last-child td{border-bottom:none}
+
+.badge{display:inline-block;padding:0.18rem 0.45rem;border-radius:3px;font-size:0.7rem;font-weight:700}
+.badge-green{background:var(--green-soft);color:var(--green-mid)}
+.badge-teal{background:var(--teal-soft);color:var(--teal-mid)}
+.badge-amber{background:var(--amber-soft);color:var(--amber-mid)}
+.badge-red{background:var(--red-soft);color:var(--red)}
+
+.pol-bar{display:flex;align-items:center;gap:5px;font-size:0.8rem;color:var(--ink2)}
+.pol-track{width:56px;height:4px;border-radius:2px;background:linear-gradient(to right,#b83232,#aaaaaa,#0d2d5c);position:relative;flex-shrink:0}
+.pol-dot{position:absolute;top:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:var(--surface);border:1.5px solid var(--ink)}
+
+.media-tags{display:flex;flex-wrap:wrap;gap:3px}
+.media-tag{font-size:0.7rem;padding:0.15rem 0.4rem;background:var(--paper);border:1px solid var(--border2);border-radius:3px;color:var(--ink2);white-space:nowrap}
+
+.edge-section{margin-bottom:1.75rem}
+.edge-group-label{
+  font-size:0.74rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--ink3);padding:0.5rem 0;border-bottom:1px solid var(--border);
+  margin-bottom:0.6rem;display:flex;align-items:center;gap:8px
+}
+.auto-badge{
+  font-size:0.65rem;background:var(--teal-soft);color:var(--teal-mid);
+  border:1px solid #b0d0da;border-radius:3px;padding:0.15rem 0.4rem;
+  font-weight:700;letter-spacing:0.04em;text-transform:uppercase
+}
+.edge-grid{display:flex;flex-wrap:wrap;gap:6px}
+.edge-btn{
+  display:flex;align-items:center;gap:7px;padding:0.45rem 0.85rem;
+  border-radius:100px;border:1px solid var(--border2);background:var(--surface);
+  font-family:'Lato',sans-serif;font-size:0.82rem;color:var(--ink2);
+  cursor:pointer;transition:all 0.15s;white-space:nowrap
+}
+.edge-btn:hover{border-color:var(--green-mid);color:var(--ink)}
+.edge-btn.on{background:var(--green);border-color:var(--green);color:#fff}
+.edge-btn.auto{border-color:var(--teal-mid);color:var(--teal-mid)}
+.edge-btn.auto.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.edge-btn .check{
+  width:13px;height:13px;border-radius:50%;border:1.5px solid currentColor;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:8px
+}
+.edge-btn.on .check,.edge-btn.auto.on .check{background:rgba(255,255,255,0.25)}
+
+.empty{padding:1.5rem;text-align:center;color:var(--ink3);font-size:0.85rem;border:1px dashed var(--border);border-radius:8px}
+
+.xml-box{
+  background:#111110;border-radius:8px;padding:1.1rem 1.25rem;
+  font-family:'Courier New',monospace;font-size:0.78rem;color:#c8c4bc;
+  line-height:1.6;max-height:300px;overflow-y:auto;white-space:pre;margin-bottom:1rem
+}
+.summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.s-box{background:var(--green-soft);border-radius:8px;padding:0.85rem;text-align:center}
+.s-num{font-size:1.9rem;font-weight:700;color:var(--green);line-height:1;margin-bottom:0.2rem}
+.s-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--green-mid)}
+
+.notice{padding:0.8rem 1rem;border-radius:7px;font-size:0.83rem;line-height:1.6;margin-bottom:1rem}
+.notice-gold{background:var(--gold-soft);color:var(--gold-mid);border:1px solid #ddd0a0}
+.notice-teal{background:var(--teal-soft);color:var(--teal-mid);border:1px solid #b0d0da}
+
+.flash{padding:0.55rem 1rem;border-radius:6px;font-size:0.82rem;margin-bottom:0.75rem;display:none}
+.flash-ok{background:var(--green-soft);color:var(--green-mid);border:1px solid #bfd4c7}
+.flash-err{background:var(--red-soft);color:var(--red);border:1px solid #e8c0c0}
+
+.auto-edges-notice{
+  display:none;background:var(--teal-soft);border:1px solid #b0d0da;
+  border-radius:7px;padding:0.75rem 1rem;font-size:0.82rem;
+  color:var(--teal-mid);margin-bottom:1rem;line-height:1.6
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-title">Researcher tool</div>
+      <div class="sidebar-sub">Political vaccination network · ETH Zürich</div>
+    </div>
+    <nav class="nav-list">
+      <button class="nav-item active" id="nav-import" onclick="showPanel('import')"><span class="nav-dot"></span> Import responses</button>
+      <button class="nav-item" id="nav-edges" onclick="showPanel('edges')"><span class="nav-dot"></span> Draw connections</button>
+      <button class="nav-item" id="nav-export" onclick="showPanel('export')"><span class="nav-dot"></span> Export GraphML</button>
+    </nav>
+    <div class="stat-mini">
+      <div class="stat-mini-item"><div class="stat-mini-num" id="s-nodes">0</div><div class="stat-mini-label">Nodes</div></div>
+      <div class="stat-mini-item"><div class="stat-mini-num" id="s-edges">0</div><div class="stat-mini-label">Edges</div></div>
+      <div class="stat-mini-item"><div class="stat-mini-num" id="s-auto">0</div><div class="stat-mini-label">Auto edges</div></div>
+      <div class="stat-mini-item"><div class="stat-mini-num" id="s-density">—</div><div class="stat-mini-label">Density</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- IMPORT -->
+    <div class="panel active" id="panel-import">
+      <div class="panel-header">
+        <h2>Import responses</h2>
+        <p>Paste the JSON code from each respondent. You can add one at a time or several at once. Referral edges are detected and drawn automatically.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Paste response code</div>
+        <div class="flash flash-ok" id="flash-ok"></div>
+        <div class="flash flash-err" id="flash-err"></div>
+        <textarea id="paste-area" placeholder='{"id":"r_abc123","name":"Anna M.","canton":"ZH — Zürich","covid_recovered":"no","vaccinations":"2","political_position":4,"media_source":["NZZ","SRF / RTS / RSI"],"referred_by":null,...}'></textarea>
+        <div style="margin-top:0.75rem;display:flex;gap:8px">
+          <button class="btn btn-primary" onclick="importResponse()">+ Add respondent</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('paste-area').value=''">Clear</button>
+        </div>
+      </div>
+      <div class="auto-edges-notice" id="auto-notice"></div>
+      <div class="card">
+        <div class="card-title">Current respondents (<span id="resp-count">0</span>)</div>
+        <div id="respondent-table-wrap"><div class="empty">No respondents imported yet.</div></div>
+      </div>
+    </div>
+
+    <!-- EDGES -->
+    <div class="panel" id="panel-edges">
+      <div class="panel-header">
+        <h2>Draw connections</h2>
+        <p>Select pairs who are political acquaintances. Teal buttons were pre-filled from referral links — review and adjust as needed.</p>
+      </div>
+      <div class="notice notice-teal" id="auto-edge-legend" style="display:none">
+        <strong>Teal = auto-detected</strong> from referral links. These are pre-ticked but you can toggle them like any other edge.
+      </div>
+      <div class="card">
+        <div id="edge-container"><div class="empty">Import at least 2 respondents first.</div></div>
+      </div>
+    </div>
+
+    <!-- EXPORT -->
+    <div class="panel" id="panel-export">
+      <div class="panel-header">
+        <h2>Export GraphML</h2>
+        <p>Review and download your network file for visone.</p>
+      </div>
+      <div class="summary-row">
+        <div class="s-box"><div class="s-num" id="ex-nodes">0</div><div class="s-label">Nodes</div></div>
+        <div class="s-box"><div class="s-num" id="ex-edges">0</div><div class="s-label">Edges</div></div>
+        <div class="s-box"><div class="s-num" id="ex-auto">0</div><div class="s-label">Auto edges</div></div>
+        <div class="s-box"><div class="s-num" id="ex-density">—</div><div class="s-label">Density</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">GraphML preview</div>
+        <div class="xml-box" id="xml-preview">No data yet.</div>
+      </div>
+      <div class="notice notice-gold">
+        <strong>Opening in visone:</strong> File → Open → select the .graphml file. All node attributes (name, canton, covid_recovered, vaccinations, political_position, media_source) appear automatically in the attribute manager.
+      </div>
+      <button class="btn btn-gold" onclick="downloadGraphML()">↓ Download vaccination_network.graphml</button>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const respondents=[];
+const edges=new Set();
+const autoEdges=new Set();
+
+function showPanel(name){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+  if(name==='export') buildExport();
+  if(name==='edges') renderEdges();
+}
+
+function flash(type,msg){
+  ['flash-ok','flash-err'].forEach(id=>{const el=document.getElementById(id);el.style.display='none';el.textContent=''});
+  const el=document.getElementById('flash-'+type);
+  el.textContent=msg;el.style.display='block';
+  setTimeout(()=>el.style.display='none',4000);
+}
+
+function importResponse(){
+  const raw=document.getElementById('paste-area').value.trim();
+  if(!raw){flash('err','Nothing pasted.');return;}
+
+  const candidates=[];
+  const matches=raw.match(/\{[^{}]*\}/g)||[];
+  for(const m of matches){try{candidates.push(JSON.parse(m))}catch(e){}}
+  if(candidates.length===0){
+    try{candidates.push(JSON.parse(raw))}
+    catch(e){flash('err','Could not parse — copy the full JSON code.');return;}
+  }
+
+  let added=0,autoAdded=0;
+  for(const obj of candidates){
+    if(!obj.name||!obj.vaccinations||!obj.political_position||!obj.media_source){
+      flash('err','Missing fields in one entry.');continue;
+    }
+    if(respondents.find(r=>r.id===obj.id)){
+      flash('err','Duplicate: '+obj.name+' already imported.');continue;
+    }
+    // normalise media_source: handle both string (old) and array (new)
+    if(typeof obj.media_source==='string') obj.media_source=[obj.media_source];
+    obj.nodeId='n'+respondents.length;
+    respondents.push(obj);
+    added++;
+
+    if(obj.referred_by){
+      const referrer=respondents.find(r=>r.id===obj.referred_by);
+      if(referrer){
+        const key=edgeKey(referrer.nodeId,obj.nodeId);
+        edges.add(key);autoEdges.add(key);autoAdded++;
+      }
+    }
+  }
+
+  if(added>0){
+    document.getElementById('paste-area').value='';
+    let msg=added===1?'Respondent added.':added+' respondents added.';
+    if(autoAdded>0) msg+=' '+autoAdded+' referral edge'+(autoAdded>1?'s':'')+' auto-detected.';
+    flash('ok',msg);
+    if(autoAdded>0){
+      const n=document.getElementById('auto-notice');
+      n.textContent=autoAdded+' referral connection'+(autoAdded>1?'s were':' was')+' automatically detected from the survey link. Review them in the "Draw connections" tab.';
+      n.style.display='block';
+    }
+    renderRespondents();updateStats();
+  }
+}
+
+function removeRespondent(nodeId){
+  const idx=respondents.findIndex(r=>r.nodeId===nodeId);
+  if(idx===-1) return;
+  respondents.splice(idx,1);
+  for(const k of [...edges]) if(k.split('|').includes(nodeId)){edges.delete(k);autoEdges.delete(k);}
+  renderRespondents();renderEdges();updateStats();
+}
+
+function renderRespondents(){
+  const n=respondents.length;
+  document.getElementById('resp-count').textContent=n;
+  const wrap=document.getElementById('respondent-table-wrap');
+  if(n===0){wrap.innerHTML='<div class="empty">No respondents imported yet.</div>';return;}
+
+  let html='<div class="resp-table-wrap"><table class="respondent-table"><thead><tr>'
+    +'<th style="width:16%">Name</th>'
+    +'<th style="width:10%">Canton</th>'
+    +'<th style="width:9%">Covid</th>'
+    +'<th style="width:7%">Vacc.</th>'
+    +'<th style="width:11%">Politics</th>'
+    +'<th style="width:35%">Media sources</th>'
+    +'<th style="width:12%"></th>'
+    +'</tr></thead><tbody>';
+
+  respondents.forEach(r=>{
+    const pct=((r.political_position-1)/9*100).toFixed(0);
+    const covidBadge=r.covid_recovered==='yes'
+      ?'<span class="badge badge-amber">recovered</span>'
+      :'<span style="font-size:0.78rem;color:var(--ink3)">no</span>';
+    const refBadge=r.referred_by?'&nbsp;<span class="badge badge-teal">ref</span>':'';
+    const canton=r.canton?r.canton.split(' — ')[0]:'-';
+
+    // media_source is array
+    const mediaSrc=Array.isArray(r.media_source)?r.media_source:[r.media_source];
+    const mediaTags=mediaSrc.map(m=>`<span class="media-tag">${esc(m)}</span>`).join('');
+
+    html+=`<tr>
+      <td><span class="badge badge-green">${r.nodeId}</span>&nbsp;${esc(r.name)}${refBadge}</td>
+      <td style="color:var(--ink2)">${canton}</td>
+      <td>${covidBadge}</td>
+      <td style="text-align:center">${r.vaccinations}</td>
+      <td><div class="pol-bar"><div class="pol-track"><div class="pol-dot" style="left:${pct}%"></div></div>${r.political_position}</div></td>
+      <td><div class="media-tags">${mediaTags}</div></td>
+      <td><button class="btn btn-ghost" onclick="removeRespondent('${r.nodeId}')">remove</button></td>
+    </tr>`;
+  });
+  html+='</tbody></table></div>';
+  wrap.innerHTML=html;
+}
+
+function edgeKey(a,b){return[a,b].sort().join('|')}
+
+function renderEdges(){
+  const container=document.getElementById('edge-container');
+  if(respondents.length<2){container.innerHTML='<div class="empty">Import at least 2 respondents first.</div>';return;}
+  const hasAuto=autoEdges.size>0;
+  document.getElementById('auto-edge-legend').style.display=hasAuto?'block':'none';
+  let html='';
+  for(let i=0;i<respondents.length;i++){
+    const a=respondents[i];
+    html+=`<div class="edge-section"><div class="edge-group-label">${esc(a.name)}`;
+    const myAutoCount=[...autoEdges].filter(k=>k.split('|').includes(a.nodeId)).length;
+    if(myAutoCount>0) html+=`<span class="auto-badge">${myAutoCount} auto</span>`;
+    html+=`</div><div class="edge-grid">`;
+    for(let j=0;j<respondents.length;j++){
+      if(i===j) continue;
+      const b=respondents[j];
+      const key=edgeKey(a.nodeId,b.nodeId);
+      const isOn=edges.has(key);
+      const isAuto=autoEdges.has(key);
+      html+=`<button class="edge-btn${isOn?' on':''}${isAuto?' auto':''}" data-key="${key}" onclick="toggleEdge(this,'${key}')">
+        <span class="check">${isOn?'✓':''}</span>${esc(b.name)}
+      </button>`;
+    }
+    html+='</div></div>';
+  }
+  container.innerHTML=html;
+}
+
+function toggleEdge(btn,key){
+  if(edges.has(key)){
+    edges.delete(key);
+    document.querySelectorAll(`.edge-btn[data-key="${key}"]`).forEach(b=>{
+      b.classList.remove('on');b.querySelector('.check').textContent='';
+    });
+  } else {
+    edges.add(key);
+    document.querySelectorAll(`.edge-btn[data-key="${key}"]`).forEach(b=>{
+      b.classList.add('on');b.querySelector('.check').textContent='✓';
+    });
+  }
+  updateStats();
+}
+
+function updateStats(){
+  const n=respondents.length;
+  const e=edges.size;
+  const ae=autoEdges.size;
+  const maxE=n*(n-1)/2;
+  const d=maxE>0?(e/maxE).toFixed(2):'—';
+  ['s-nodes','ex-nodes'].forEach(id=>document.getElementById(id).textContent=n);
+  ['s-edges','ex-edges'].forEach(id=>document.getElementById(id).textContent=e);
+  ['s-auto','ex-auto'].forEach(id=>document.getElementById(id).textContent=ae);
+  ['s-density','ex-density'].forEach(id=>document.getElementById(id).textContent=d);
+}
+
+function buildGraphML(){
+  const lines=[];
+  lines.push('<?xml version="1.0" encoding="UTF-8"?>');
+  lines.push('<graphml xmlns="http://graphml.graphdrawing.org/graphml"');
+  lines.push('  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"');
+  lines.push('  xsi:schemaLocation="http://graphml.graphdrawing.org/graphml');
+  lines.push('  http://graphml.graphdrawing.org/graphml/graphml.xsd">');
+  lines.push('');
+  lines.push('  <key id="d_name"     for="node" attr.name="name"               attr.type="string"/>');
+  lines.push('  <key id="d_canton"   for="node" attr.name="canton"             attr.type="string"/>');
+  lines.push('  <key id="d_covid"    for="node" attr.name="covid_recovered"    attr.type="string"/>');
+  lines.push('  <key id="d_vacc"     for="node" attr.name="vaccinations"       attr.type="string"/>');
+  lines.push('  <key id="d_politics" for="node" attr.name="political_position" attr.type="int"/>');
+  lines.push('  <key id="d_media"    for="node" attr.name="media_source"       attr.type="string"/>');
+  lines.push('  <key id="d_auto"     for="edge" attr.name="auto_detected"      attr.type="boolean"/>');
+  lines.push('');
+  lines.push('  <graph id="G" edgedefault="undirected">');
+  lines.push('');
+  respondents.forEach(r=>{
+    const mediaSrc=Array.isArray(r.media_source)?r.media_source.join('; '):r.media_source;
+    lines.push(`    <node id="${r.nodeId}">`);
+    lines.push(`      <data key="d_name">${esc(r.name)}</data>`);
+    lines.push(`      <data key="d_canton">${esc(r.canton||'')}</data>`);
+    lines.push(`      <data key="d_covid">${esc(r.covid_recovered||'unknown')}</data>`);
+    lines.push(`      <data key="d_vacc">${esc(r.vaccinations)}</data>`);
+    lines.push(`      <data key="d_politics">${r.political_position}</data>`);
+    lines.push(`      <data key="d_media">${esc(mediaSrc)}</data>`);
+    lines.push(`    </node>`);
+  });
+  lines.push('');
+  let ei=0;
+  edges.forEach(key=>{
+    const[a,b]=key.split('|');
+    const isAuto=autoEdges.has(key);
+    lines.push(`    <edge id="e${ei++}" source="${a}" target="${b}">`);
+    lines.push(`      <data key="d_auto">${isAuto}</data>`);
+    lines.push(`    </edge>`);
+  });
+  lines.push('');
+  lines.push('  </graph>');
+  lines.push('</graphml>');
+  return lines.join('\n');
+}
+
+function buildExport(){
+  updateStats();
+  const xml=buildGraphML();
+  document.getElementById('xml-preview').textContent=xml.length>2400?xml.slice(0,2400)+'\n…':xml;
+}
+
+function downloadGraphML(){
+  const xml=buildGraphML();
+  const blob=new Blob([xml],{type:'application/xml'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='vaccination_network.graphml';a.click();
+  URL.revokeObjectURL(url);
+}
+
+function esc(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
