@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Study — Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#111110;--ink2:#4a4a47;--ink3:#8a8a85;
+  --paper:#ddeef6;--surface:#ffffff;
+  --border:#b8d8ea;--border2:#8fbdd4;
+  --green:#1a4a32;--green-soft:#e8f0eb;--green-mid:#2d6647;
+  --red:#7a2020;--teal:#1a3f4a;--teal-soft:#e6f0f3;--teal-mid:#2a6070;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Lato',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;padding:0}
+.page-wrap{max-width:580px;margin:0 auto;padding:3rem 1.5rem 5rem}
+.masthead{margin-bottom:2.5rem}
+.study-tag{display:inline-block;font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-mid);background:var(--green-soft);padding:0.3rem 0.7rem;border-radius:3px;margin-bottom:1rem}
+.masthead h1{font-family:'Lato',sans-serif;font-size:2.1rem;font-weight:700;line-height:1.15;letter-spacing:-0.01em;color:var(--ink);margin-bottom:0.75rem}
+.masthead p{font-size:0.9rem;line-height:1.7;color:var(--ink2);max-width:460px}
+.referred-banner{display:none;align-items:center;gap:10px;background:var(--teal-soft);border:1px solid #b0d0da;border-radius:7px;padding:0.7rem 1rem;margin-bottom:1.75rem;font-size:0.84rem;color:var(--teal-mid)}
+.referred-banner svg{flex-shrink:0;width:16px;height:16px;stroke:var(--teal-mid);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.progress-bar{height:2px;background:var(--border);border-radius:1px;margin-bottom:2.5rem;overflow:hidden}
+.progress-fill{height:100%;background:var(--green);border-radius:1px;transition:width 0.4s ease;width:0%}
+.q-block{margin-bottom:2.25rem;opacity:0;transform:translateY(8px);animation:fadeup 0.35s ease forwards}
+@keyframes fadeup{to{opacity:1;transform:translateY(0)}}
+.q-block:nth-child(1){animation-delay:.05s}.q-block:nth-child(2){animation-delay:.1s}
+.q-block:nth-child(3){animation-delay:.15s}.q-block:nth-child(4){animation-delay:.2s}
+.q-block:nth-child(5){animation-delay:.22s}.q-block:nth-child(6){animation-delay:.25s}
+.q-block:nth-child(7){animation-delay:.28s}
+.q-number{font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.4rem}
+.q-label{font-family:'Lato',sans-serif;font-size:1.05rem;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:0.3rem}
+.q-hint{font-size:0.8rem;color:var(--ink3);line-height:1.5;margin-bottom:0.85rem}
+input[type="text"],select{width:100%;padding:0.7rem 0.9rem;border:1px solid var(--border2);border-radius:6px;background:var(--surface);font-family:'Lato',sans-serif;font-size:0.92rem;color:var(--ink);transition:border-color 0.15s;-webkit-appearance:none;appearance:none}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6760' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.9rem center;padding-right:2.4rem;cursor:pointer}
+input[type="text"]:focus,select:focus{outline:none;border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(45,102,71,0.08)}
+.pill-group{display:flex;flex-wrap:wrap;gap:8px}
+.pill{padding:0.45rem 1.05rem;border-radius:100px;border:1px solid var(--border2);background:var(--surface);font-family:'Lato',sans-serif;font-size:0.88rem;color:var(--ink2);cursor:pointer;transition:all 0.15s;user-select:none}
+.pill:hover{border-color:var(--green-mid);color:var(--ink)}
+.pill.on{background:var(--green);border-color:var(--green);color:#fff}
+.toggle-group{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.toggle-card{padding:0.85rem 1rem;border:1px solid var(--border2);border-radius:8px;background:var(--surface);cursor:pointer;transition:all 0.15s;user-select:none}
+.toggle-card:hover{border-color:var(--green-mid)}
+.toggle-card.on{border-color:var(--green);background:var(--green-soft)}
+.toggle-card .tc-title{font-size:0.9rem;font-weight:500;color:var(--ink);margin-bottom:2px}
+.toggle-card.on .tc-title{color:var(--green)}
+.toggle-card .tc-sub{font-size:0.76rem;color:var(--ink3)}
+.spectrum-outer{padding:0.5rem 0 0}
+.spectrum-row{position:relative;height:32px;margin-bottom:0.5rem}
+.spectrum-bg{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:6px;border-radius:3px;background:linear-gradient(to right,#b83232,#d46a1a,#c9b01a,#aaaaaa,#2a6eb5,#1a4e8f,#0d2d5c)}
+input[type="range"]{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;width:100%;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer;height:32px}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--surface);border:2.5px solid var(--green);box-shadow:0 1px 4px rgba(0,0,0,0.18)}
+input[type="range"]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--surface);border:2.5px solid var(--green);cursor:pointer}
+.spectrum-callout{text-align:center;font-size:0.82rem;font-weight:500;color:var(--green-mid);min-height:1.2em;margin-bottom:0.5rem}
+.spectrum-ends{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--ink3)}
+.media-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.media-card{padding:0.7rem 0.9rem;border:1px solid var(--border2);border-radius:8px;background:var(--surface);cursor:pointer;transition:all 0.15s;user-select:none}
+.media-card:hover{border-color:var(--green-mid)}
+.media-card.on{border-color:var(--green);background:var(--green-soft)}
+.media-card .mc-label{font-size:0.88rem;font-weight:500;color:var(--ink)}
+.media-card.on .mc-label{color:var(--green)}
+.media-card .mc-sub{font-size:0.74rem;color:var(--ink3);margin-top:2px}
+.divider{border:none;border-top:1px solid var(--border);margin:2rem 0}
+.submit-btn{display:inline-flex;align-items:center;gap:8px;padding:0.85rem 2rem;background:var(--green);color:#fff;border:none;border-radius:7px;font-family:'Lato',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;transition:background 0.15s}
+.submit-btn:hover{background:#122e21}
+.err{font-size:0.82rem;color:var(--red);margin-top:0.4rem;display:none}
+.result-screen{display:none;animation:fadeup 0.4s ease forwards}
+.result-screen.show{display:block}
+.result-icon{width:52px;height:52px;background:var(--green-soft);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem}
+.result-icon svg{width:24px;height:24px;stroke:var(--green);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.result-title{font-family:'Lato',sans-serif;font-size:1.8rem;font-weight:700;margin-bottom:0.6rem}
+.result-sub{font-size:0.9rem;color:var(--ink2);line-height:1.7;margin-bottom:1.75rem;max-width:420px}
+.code-box{background:#1a1916;border-radius:8px;padding:1.1rem 1.25rem;margin-bottom:1rem;position:relative}
+.code-box pre{font-family:'Courier New',monospace;font-size:0.8rem;color:#c8c4bc;white-space:pre-wrap;word-break:break-all;line-height:1.6;max-height:160px;overflow-y:auto}
+.copy-btn{position:absolute;top:0.6rem;right:0.6rem;padding:0.3rem 0.65rem;background:rgba(255,255,255,0.1);color:#c8c4bc;border:1px solid rgba(255,255,255,0.15);border-radius:4px;font-size:0.75rem;cursor:pointer;font-family:'Lato',sans-serif;transition:background 0.15s}
+.copy-btn:hover{background:rgba(255,255,255,0.2)}
+.instruct{background:var(--green-soft);border:1px solid #bfd4c7;border-radius:7px;padding:0.9rem 1.1rem;font-size:0.84rem;color:var(--green-mid);line-height:1.6}
+.instruct strong{color:var(--green)}
+.share-box{margin-top:1.25rem;background:var(--teal-soft);border:1px solid #b0d0da;border-radius:7px;padding:0.9rem 1.1rem;font-size:0.84rem;color:var(--teal-mid);line-height:1.6;display:none}
+.share-box strong{color:var(--teal)}
+.share-link{font-family:'Courier New',monospace;font-size:0.78rem;background:rgba(0,0,0,0.06);padding:0.25rem 0.5rem;border-radius:4px;word-break:break-all;display:inline-block;margin-top:4px}
+.share-copy{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:0.35rem 0.8rem;border:1px solid #8ac0cc;border-radius:5px;background:transparent;color:var(--teal-mid);font-family:'Lato',sans-serif;font-size:0.78rem;cursor:pointer;transition:background 0.15s}
+.share-copy:hover{background:rgba(26,63,74,0.08)}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div id="survey-form">
+    <div class="masthead">
+      <div class="study-tag">Applied network study · ETH Zürich</div>
+      <h1>Political media &amp; vaccination survey</h1>
+      <p>This short survey is part of a network analysis study on political communication. Your answers are anonymous — only your name or code will be used.</p>
+    </div>
+
+    <div class="referred-banner" id="referred-banner">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span id="referred-text">You were invited by a participant in this study. A connection will be noted automatically.</span>
+    </div>
+
+    <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+    <div class="q-block">
+      <div class="q-number">Question 1 of 7</div>
+      <div class="q-label">What name or code should we use for you?</div>
+      <div class="q-hint">Your real name, initials, or any anonymous ID you prefer.</div>
+      <input type="text" id="inp-name" placeholder="e.g. Anna M. or Respondent 03" autocomplete="off" oninput="updateProgress()">
+      <div class="err" id="err-name">Please enter a name or identifier.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-number">Question 2 of 7</div>
+      <div class="q-label">Which canton do you live in?</div>
+      <div class="q-hint">Your current canton of residence.</div>
+      <select id="inp-canton" onchange="updateProgress()">
+        <option value="">— select canton —</option>
+        <option>AG — Aargau</option>
+        <option>AI — Appenzell Innerrhoden</option>
+        <option>AR — Appenzell Ausserrhoden</option>
+        <option>BE — Bern</option>
+        <option>BL — Basel-Landschaft</option>
+        <option>BS — Basel-Stadt</option>
+        <option>FR — Fribourg</option>
+        <option>GE — Genève</option>
+        <option>GL — Glarus</option>
+        <option>GR — Graubünden</option>
+        <option>JU — Jura</option>
+        <option>LU — Luzern</option>
+        <option>NE — Neuchâtel</option>
+        <option>NW — Nidwalden</option>
+        <option>OW — Obwalden</option>
+        <option>SG — St. Gallen</option>
+        <option>SH — Schaffhausen</option>
+        <option>SO — Solothurn</option>
+        <option>SZ — Schwyz</option>
+        <option>TG — Thurgau</option>
+        <option>TI — Ticino</option>
+        <option>UR — Uri</option>
+        <option>VD — Vaud</option>
+        <option>VS — Valais</option>
+        <option>ZG — Zug</option>
+        <option>ZH — Zürich</option>
+      </select>
+      <div class="err" id="err-canton">Please select your canton.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-number">Question 3 of 7</div>
+      <div class="q-label">Did you contract Covid-19 at any point?</div>
+      <div class="q-hint">A confirmed infection, whether mild or severe.</div>
+      <div class="toggle-group" id="covid-pills">
+        <div class="toggle-card" data-val="yes" onclick="pickToggle(this,'covid')">
+          <div class="tc-title">Yes, I had Covid-19</div>
+          <div class="tc-sub">Confirmed infection</div>
+        </div>
+        <div class="toggle-card" data-val="no" onclick="pickToggle(this,'covid')">
+          <div class="tc-title">No, I did not</div>
+          <div class="tc-sub">No confirmed infection</div>
+        </div>
+      </div>
+      <div class="err" id="err-covid">Please select an option.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-number">Question 4 of 7</div>
+      <div class="q-label">How many Covid-19 vaccinations did you receive?</div>
+      <div class="q-hint">Count all doses — initial series and any boosters.</div>
+      <div class="pill-group" id="vacc-pills">
+        <div class="pill" data-val="0" onclick="pickPill(this,'vacc')">None</div>
+        <div class="pill" data-val="1" onclick="pickPill(this,'vacc')">1</div>
+        <div class="pill" data-val="2" onclick="pickPill(this,'vacc')">2</div>
+        <div class="pill" data-val="3+" onclick="pickPill(this,'vacc')">3 or more</div>
+      </div>
+      <div class="err" id="err-vacc">Please select an option.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-number">Question 5 of 7</div>
+      <div class="q-label">Where do you place yourself on the political spectrum?</div>
+      <div class="q-hint">Drag the slider to your position.</div>
+      <div class="spectrum-outer">
+        <div class="spectrum-callout" id="spec-label">5 — Centre</div>
+        <div class="spectrum-row">
+          <div class="spectrum-bg"></div>
+          <input type="range" id="inp-pol" min="1" max="10" value="5" step="1" oninput="updateSpec(this.value)">
+        </div>
+        <div class="spectrum-ends">
+          <span>1 — Far left (SP, Grüne)</span>
+          <span>10 — Far right (SVP)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-number">Question 6 of 8</div>
+      <div class="q-label">Where did you mainly get your information about Covid-19 and vaccination?</div>
+      <div class="q-hint">Select all sources you regularly turned to during 2021–2023.</div>
+      <div class="media-grid">
+        <div class="media-card" data-val="SRF / RTS / RSI" onclick="pickMedia(this)"><div class="mc-label">SRF / RTS / RSI</div><div class="mc-sub">Public broadcaster</div></div>
+        <div class="media-card" data-val="NZZ" onclick="pickMedia(this)"><div class="mc-label">NZZ</div><div class="mc-sub">Newspaper, centre-right</div></div>
+        <div class="media-card" data-val="Medical personnel" onclick="pickMedia(this)"><div class="mc-label">Medical personnel</div><div class="mc-sub">Doctors, nurses, etc.</div></div>
+        <div class="media-card" data-val="20 Minuten / Blick" onclick="pickMedia(this)"><div class="mc-label">20 Minuten / Blick</div><div class="mc-sub">Free daily tabloid</div></div>
+        <div class="media-card" data-val="Social media" onclick="pickMedia(this)"><div class="mc-label">Social media</div><div class="mc-sub">Facebook, Instagram, X…</div></div>
+        <div class="media-card" data-val="BAG" onclick="pickMedia(this)"><div class="mc-label">BAG</div><div class="mc-sub">Bundesamt für Gesundheit</div></div>
+        <div class="media-card" data-val="Word of mouth" onclick="pickMedia(this)"><div class="mc-label">Word of mouth</div><div class="mc-sub">Friends, family, GP</div></div>
+        <div class="media-card" data-val="Other / none" onclick="pickMedia(this)"><div class="mc-label">Other / none</div><div class="mc-sub">Not listed above</div></div>
+      </div>
+      <div class="err" id="err-media">Please select at least one source.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-number">Question 7 of 8</div>
+      <div class="q-label">Which single source most influenced your vaccination decision?</div>
+      <div class="q-hint">Choose the one that carried the most weight for you personally.</div>
+      <select id="inp-primary-source" onchange="updateProgress()">
+        <option value="">— select one —</option>
+        <option>SRF / RTS / RSI</option>
+        <option>NZZ</option>
+        <option>Medical personnel</option>
+        <option>20 Minuten / Blick</option>
+        <option>Social media</option>
+        <option>BAG</option>
+        <option>Word of mouth</option>
+        <option>Other / none</option>
+      </select>
+      <div class="err" id="err-primary">Please select one source.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-number">Question 8 of 8</div>
+      <div class="q-label">Do you consent to participating in this study?</div>
+      <div class="q-hint">Your data will be anonymised and used only for academic research at ETH Zürich.</div>
+      <div class="toggle-group">
+        <div class="toggle-card" data-val="yes" onclick="pickToggle(this,'consent')">
+          <div class="tc-title">Yes, I consent</div>
+          <div class="tc-sub">I agree to participate</div>
+        </div>
+        <div class="toggle-card" data-val="no" onclick="pickToggle(this,'consent')">
+          <div class="tc-title">No, I decline</div>
+          <div class="tc-sub">Do not include my data</div>
+        </div>
+      </div>
+      <div class="err" id="err-consent">Please indicate your consent.</div>
+    </div>
+
+    <hr class="divider">
+    <button class="submit-btn" onclick="submitSurvey()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,8 6,13 15,3"/></svg>
+      Submit my answers
+    </button>
+  </div>
+
+  <div class="result-screen" id="result-screen">
+    <div class="result-icon">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="result-title">Thank you!</div>
+    <div class="result-sub">Your answers have been recorded. Please copy the code below and send it to the researcher — by email, WhatsApp, or however they specified.</div>
+    <div class="code-box">
+      <pre id="result-code"></pre>
+      <button class="copy-btn" onclick="copyCode()">Copy</button>
+    </div>
+    <div class="instruct">
+      <strong>Next step:</strong> Send this code to the researcher. They will use it to add your data to the network.
+    </div>
+    <div class="share-box" id="share-box">
+      <strong>Want to pass this on?</strong> If the researcher asked you to forward the survey to your own contacts, use this personalised link — it will automatically record that you referred them:<br>
+      <span class="share-link" id="share-link-text"></span><br>
+      <button class="share-copy" onclick="copyShareLink()">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="10" height="10" rx="1"/><path d="M2 12V2h10"/></svg>
+        Copy link
+      </button>
+    </div>
+  </div>
+
+</div>
+<script>
+const specLabels={1:'1 — Far left',2:'2 — Left',3:'3 — Centre-left',4:'4 — Centre-left',5:'5 — Centre',6:'6 — Centre-right',7:'7 — Centre-right',8:'8 — Right',9:'9 — Right',10:'10 — Far right'};
+let vaccSel=null,mediaSel=[],covidSel=null,consentSel=null,primarySel=null;
+
+const params=new URLSearchParams(window.location.search);
+const referredBy=params.get('from')||null;
+
+if(referredBy){
+  const banner=document.getElementById('referred-banner');
+  banner.style.display='flex';
+}
+
+function updateSpec(v){document.getElementById('spec-label').textContent=specLabels[v];updateProgress()}
+
+function pickPill(el,group){
+  document.querySelectorAll('#vacc-pills .pill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');vaccSel=el.dataset.val;
+  document.getElementById('err-vacc').style.display='none';updateProgress();
+}
+
+function pickToggle(el,group){
+  const container=el.parentElement;
+  container.querySelectorAll('.toggle-card').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  if(group==='covid'){covidSel=el.dataset.val;document.getElementById('err-covid').style.display='none';}
+  if(group==='consent'){consentSel=el.dataset.val;document.getElementById('err-consent').style.display='none';}
+  updateProgress();
+}
+
+function pickMedia(el){
+  el.classList.toggle('on');
+  mediaSel=Array.from(document.querySelectorAll('.media-card.on')).map(c=>c.dataset.val);
+  document.getElementById('err-media').style.display='none';updateProgress();
+}
+
+function updateProgress(){
+  let done=0;
+  if(document.getElementById('inp-name').value.trim()) done++;
+  if(document.getElementById('inp-canton').value) done++;
+  if(covidSel) done++;
+  if(vaccSel) done++;
+  done++; // slider always set
+  if(mediaSel&&mediaSel.length>0) done++;
+  if(document.getElementById('inp-primary-source').value) done++;
+  if(consentSel) done++;
+  document.getElementById('prog').style.width=(done/8*100)+'%';
+}
+
+function submitSurvey(){
+  let ok=true;
+  const name=document.getElementById('inp-name').value.trim();
+  const canton=document.getElementById('inp-canton').value;
+  const primarySource=document.getElementById('inp-primary-source').value;
+  if(!name){document.getElementById('err-name').style.display='block';ok=false;}
+  if(!canton){document.getElementById('err-canton').style.display='block';ok=false;}
+  if(!covidSel){document.getElementById('err-covid').style.display='block';ok=false;}
+  if(!vaccSel){document.getElementById('err-vacc').style.display='block';ok=false;}
+  if(!mediaSel||mediaSel.length===0){document.getElementById('err-media').style.display='block';ok=false;}
+  if(!primarySource){document.getElementById('err-primary').style.display='block';ok=false;}
+  if(!consentSel){document.getElementById('err-consent').style.display='block';ok=false;}
+  if(!ok) return;
+
+  if(consentSel==='no'){
+    document.getElementById('survey-form').style.display='none';
+    const rs=document.getElementById('result-screen');
+    rs.classList.add('show');
+    rs.innerHTML='<div class="result-title" style="margin-top:1rem">No problem.</div><div class="result-sub">Your data will not be recorded. Thank you for your time.</div>';
+    return;
+  }
+
+  const id='r_'+Date.now().toString(36);
+  const payload={
+    id,name,canton,
+    covid_recovered:covidSel,
+    vaccinations:vaccSel,
+    political_position:parseInt(document.getElementById('inp-pol').value),
+    media_source:mediaSel,
+    primary_source:primarySource,
+    referred_by:referredBy||null,
+    submitted:new Date().toISOString().slice(0,10)
+  };
+
+  document.getElementById('result-code').textContent=JSON.stringify(payload,null,2);
+  document.getElementById('survey-form').style.display='none';
+  const rs=document.getElementById('result-screen');
+  rs.classList.add('show');
+
+  const shareBox=document.getElementById('share-box');
+  const base=window.location.href.split('?')[0];
+  const shareUrl=base+'?from='+id;
+  document.getElementById('share-link-text').textContent=shareUrl;
+  shareBox.style.display='block';
+}
+
+function copyCode(){
+  navigator.clipboard.writeText(document.getElementById('result-code').textContent).then(()=>{
+    const btn=document.querySelector('.copy-btn');
+    btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',2000);
+  });
+}
+
+function copyShareLink(){
+  navigator.clipboard.writeText(document.getElementById('share-link-text').textContent).then(()=>{
+    const btn=document.querySelector('.share-copy');
+    btn.textContent='Copied!';setTimeout(()=>btn.innerHTML='<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="10" height="10" rx="1"/><path d="M2 12V2h10"/></svg> Copy link',2000);
+  });
+}
+
+updateProgress();
+</script>
+</body>
+</html>
