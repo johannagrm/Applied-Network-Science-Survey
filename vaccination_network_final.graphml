@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/graphml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://graphml.graphdrawing.org/graphml
+  http://graphml.graphdrawing.org/graphml/graphml.xsd">
+
+  <key id="d_name"     for="node" attr.name="name"               attr.type="string"/>
+  <key id="d_canton"   for="node" attr.name="canton"             attr.type="string"/>
+  <key id="d_covid"    for="node" attr.name="covid_recovered"    attr.type="string"/>
+  <key id="d_vacc"     for="node" attr.name="vaccinations"       attr.type="string"/>
+  <key id="d_politics" for="node" attr.name="political_position" attr.type="int"/>
+  <key id="d_media"    for="node" attr.name="media_source"       attr.type="string"/>
+  <key id="d_primary"  for="node" attr.name="primary_source"     attr.type="string"/>
+  <key id="d_auto"     for="edge" attr.name="auto_detected"      attr.type="boolean"/>
+
+  <graph id="G" edgedefault="undirected">
+
+    <node id="n0">
+      <data key="d_name">Ignacio</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">4</data>
+      <data key="d_media">SRF / RTS / RSI; NZZ; Medical personnel; Social media; BAG; Word of mouth</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+    <node id="n1">
+      <data key="d_name">Johanna</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">SRF / RTS / RSI; Social media; BAG; Word of mouth</data>
+      <data key="d_primary">Word of mouth</data>
+    </node>
+    <node id="n2">
+      <data key="d_name">Mounir</data>
+      <data key="d_canton">VD — Vaud</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">4</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel</data>
+      <data key="d_primary">Other / none</data>
+    </node>
+    <node id="n3">
+      <data key="d_name">123</data>
+      <data key="d_canton">OW — Obwalden</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">2</data>
+      <data key="d_media">SRF / RTS / RSI; NZZ; BAG</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n4">
+      <data key="d_name">Suryeon</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">5</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; Social media; Word of mouth</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+    <node id="n5">
+      <data key="d_name">Madeleine</data>
+      <data key="d_canton">LU — Luzern</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">5</data>
+      <data key="d_media">SRF / RTS / RSI; Social media; BAG; Word of mouth</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n6">
+      <data key="d_name">Isa</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">Social media; BAG; Word of mouth</data>
+      <data key="d_primary">Word of mouth</data>
+    </node>
+    <node id="n8">
+      <data key="d_name">04</data>
+      <data key="d_canton">LU — Luzern</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">0</data>
+      <data key="d_politics">8</data>
+      <data key="d_media">Medical personnel; 20 Minuten / Blick; Social media; BAG; Word of mouth</data>
+      <data key="d_primary">Social media</data>
+    </node>
+    <node id="n9">
+      <data key="d_name">J9</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">5</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; BAG</data>
+      <data key="d_primary">Other / none</data>
+    </node>
+    <node id="n10">
+      <data key="d_name">eg</data>
+      <data key="d_canton">LU — Luzern</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">BAG</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n11">
+      <data key="d_name">Anonym</data>
+      <data key="d_canton">LU — Luzern</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">9</data>
+      <data key="d_media">SRF / RTS / RSI; 20 Minuten / Blick; Word of mouth</data>
+      <data key="d_primary">SRF / RTS / RSI</data>
+    </node>
+    <node id="n12">
+      <data key="d_name">JN</data>
+      <data key="d_canton">BE — Bern</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">5</data>
+      <data key="d_media">SRF / RTS / RSI; 20 Minuten / Blick</data>
+      <data key="d_primary">SRF / RTS / RSI</data>
+    </node>
+    <node id="n13">
+      <data key="d_name">Leo</data>
+      <data key="d_canton">AG — Aargau</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">5</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; BAG; Word of mouth</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+    <node id="n14">
+      <data key="d_name">Markus</data>
+      <data key="d_canton">LU — Luzern</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">4</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; 20 Minuten / Blick; BAG</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+    <node id="n15">
+      <data key="d_name">Flolo</data>
+      <data key="d_canton">LU — Luzern</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">SRF / RTS / RSI; BAG; Word of mouth</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n16">
+      <data key="d_name">Charleen</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">2</data>
+      <data key="d_media">SRF / RTS / RSI; BAG</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n17">
+      <data key="d_name">FabienneZ</data>
+      <data key="d_canton">AG — Aargau</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; BAG</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n18">
+      <data key="d_name">Nina Grimm</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">1</data>
+      <data key="d_media">Social media; Word of mouth</data>
+      <data key="d_primary">Word of mouth</data>
+    </node>
+    <node id="n19">
+      <data key="d_name">Maja</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">2</data>
+      <data key="d_media">Word of mouth</data>
+      <data key="d_primary">Word of mouth</data>
+    </node>
+    <node id="n20">
+      <data key="d_name">Maximw</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">5</data>
+      <data key="d_media">SRF / RTS / RSI; NZZ; BAG</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n21">
+      <data key="d_name">elena</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">7</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; Word of mouth</data>
+      <data key="d_primary">Word of mouth</data>
+    </node>
+    <node id="n22">
+      <data key="d_name">respondent 03</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">4</data>
+      <data key="d_media">SRF / RTS / RSI; BAG; Word of mouth</data>
+      <data key="d_primary">SRF / RTS / RSI</data>
+    </node>
+    <node id="n23">
+      <data key="d_name">SE</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">2</data>
+      <data key="d_media">BAG; Word of mouth</data>
+      <data key="d_primary">Word of mouth</data>
+    </node>
+    <node id="n24">
+      <data key="d_name">Anonym</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">Word of mouth</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+    <node id="n25">
+      <data key="d_name">Diego Hernandez</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">4</data>
+      <data key="d_media">SRF / RTS / RSI; NZZ; 20 Minuten / Blick; Social media</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+    <node id="n26">
+      <data key="d_name">DE23</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">6</data>
+      <data key="d_media">SRF / RTS / RSI; Word of mouth</data>
+      <data key="d_primary">Other / none</data>
+    </node>
+    <node id="n27">
+      <data key="d_name">Larissa O</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">9</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; BAG; Word of mouth</data>
+      <data key="d_primary">Word of mouth</data>
+    </node>
+    <node id="n28">
+      <data key="d_name">RO</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">9</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; BAG; Word of mouth</data>
+      <data key="d_primary">Word of mouth</data>
+    </node>
+    <node id="n29">
+      <data key="d_name">PD</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">7</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; BAG; Word of mouth</data>
+      <data key="d_primary">Word of mouth</data>
+    </node>
+    <node id="n30">
+      <data key="d_name">Alok</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; BAG; Word of mouth</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n31">
+      <data key="d_name">Jan</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">SRF / RTS / RSI; NZZ; BAG</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n32">
+      <data key="d_name">Anne</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">2</data>
+      <data key="d_media">SRF / RTS / RSI; NZZ; BAG</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n35">
+      <data key="d_name">Respondent 03</data>
+      <data key="d_canton">FR — Fribourg</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">7</data>
+      <data key="d_media">SRF / RTS / RSI; NZZ; Medical personnel; BAG; Other / none</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+    <node id="n36">
+      <data key="d_name">Samira</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; 20 Minuten / Blick; Social media; BAG; Word of mouth</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+    <node id="n38">
+      <data key="d_name">Sandy</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">6</data>
+      <data key="d_media">Social media</data>
+      <data key="d_primary">Other / none</data>
+    </node>
+    <node id="n35">
+      <data key="d_name">AKI</data>
+      <data key="d_canton">AG — Aargau</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">SRF / RTS / RSI; BAG; Word of mouth</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n36">
+      <data key="d_name">Anna</data>
+      <data key="d_canton">AG — Aargau</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">1</data>
+      <data key="d_media">SRF / RTS / RSI; BAG</data>
+      <data key="d_primary">SRF / RTS / RSI</data>
+    </node>
+    <node id="n37">
+      <data key="d_name">Anushka</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">2</data>
+      <data key="d_media">Medical personnel; BAG</data>
+      <data key="d_primary">BAG</data>
+    </node>
+    <node id="n38">
+      <data key="d_name">Elena</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">3</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; Social media; Word of mouth</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+    <node id="n39">
+      <data key="d_name">AK</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">5</data>
+      <data key="d_media">SRF / RTS / RSI; Medical personnel; Social media</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+    <node id="n40">
+      <data key="d_name">Respondent :)</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">3</data>
+      <data key="d_media">SRF / RTS / RSI; NZZ; Medical personnel; BAG; Word of mouth</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+    <node id="n41">
+      <data key="d_name">elif naz</data>
+      <data key="d_canton">ZH — Zürich</data>
+      <data key="d_covid">no</data>
+      <data key="d_vacc">2</data>
+      <data key="d_politics">2</data>
+      <data key="d_media">Medical personnel; Social media; Word of mouth</data>
+      <data key="d_primary">Medical personnel</data>
+    </node>
+
+    <edge id="e0" source="n1" target="n4">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e1" source="n1" target="n5">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e2" source="n3" target="n6">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e3" source="n5" target="n8">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e4" source="n5" target="n9">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e5" source="n10" target="n5">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e6" source="n11" target="n8">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e7" source="n12" target="n5">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e8" source="n14" target="n5">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e9" source="n15" target="n5">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e10" source="n1" target="n18">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e11" source="n23" target="n24">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e12" source="n20" target="n27">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e13" source="n27" target="n28">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e14" source="n20" target="n29">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e15" source="n18" target="n31">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e16" source="n18" target="n32">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e17" source="n0" target="n2">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e18" source="n0" target="n6">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e19" source="n0" target="n1">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e20" source="n0" target="n3">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e21" source="n1" target="n35">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e22" source="n1" target="n20">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e23" source="n38" target="n4">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e24" source="n37" target="n4">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e25" source="n40" target="n41">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e26" source="n39" target="n41">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e27" source="n14" target="n9">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e28" source="n15" target="n9">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e29" source="n10" target="n9">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e30" source="n12" target="n16">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e31" source="n12" target="n17">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e32" source="n12" target="n13">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e33" source="n13" target="n16">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e34" source="n13" target="n17">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e35" source="n14" target="n16">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e36" source="n15" target="n17">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e37" source="n18" target="n19">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e38" source="n1" target="n21">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e39" source="n20" target="n21">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e40" source="n21" target="n22">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e41" source="n1" target="n23">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e42" source="n1" target="n25">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e43" source="n1" target="n26">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e44" source="n1" target="n30">
+      <data key="d_auto">true</data>
+    </edge>
+    <edge id="e45" source="n36" target="n38">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e46" source="n38" target="n39">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e47" source="n39" target="n40">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e48" source="n2" target="n6">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e49" source="n2" target="n3">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e50" source="n31" target="n32">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e51" source="n19" target="n31">
+      <data key="d_auto">false</data>
+    </edge>
+    <edge id="e52" source="n19" target="n32">
+      <data key="d_auto">false</data>
+    </edge>
+
+  </graph>
+</graphml>
