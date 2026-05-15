@@ -393,6 +393,24 @@
       <data key="d_media">Medical personnel; Social media; Word of mouth</data>
       <data key="d_primary">Medical personnel</data>
     </node>
+    <node id="n42">
+      <data key="d_name">M</data>
+      <data key="d_canton">LU — Luzern</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">0</data>
+      <data key="d_politics">7</data>
+      <data key="d_media"SRF / RTS / RSI; Word of mouth</data>
+      <data key="d_primary">Word of mouth</data>
+    </node>
+ <node id="n43">
+      <data key="d_name">P</data>
+      <data key="d_canton">LU — Luzern</data>
+      <data key="d_covid">yes</data>
+      <data key="d_vacc">0</data>
+      <data key="d_politics">8</data>
+      <data key="d_media"SRF / RTS / RSI; Word of mouth</data>
+      <data key="d_primary">Word of mouth</data>
+    </node>
 
     <edge id="e0" source="n1" target="n4">
       <data key="d_auto">true</data>
