@@ -7,7 +7,7 @@
   <key id="d_name"     for="node" attr.name="name"               attr.type="string"/>
   <key id="d_canton"   for="node" attr.name="canton"             attr.type="string"/>
   <key id="d_covid"    for="node" attr.name="covid_recovered"    attr.type="string"/>
-  <key id="d_vacc"     for="node" attr.name="vaccinations"       attr.type="string"/>
+  <key id="d_vacc"     for="node" attr.name="vaccinations"       attr.type="int"/>
   <key id="d_politics" for="node" attr.name="political_position" attr.type="int"/>
   <key id="d_media"    for="node" attr.name="media_source"       attr.type="string"/>
   <key id="d_primary"  for="node" attr.name="primary_source"     attr.type="string"/>
